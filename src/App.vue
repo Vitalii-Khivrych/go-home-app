@@ -1,6 +1,20 @@
 <template>
   <div id="app">
-    <ApartmentsList :items="apartments" />
+    <p>{{ text }}</p>
+    <CustomInput v-model="text" />
+    <ApartmentsList :items="apartments">
+      <template v-slot:title>New title</template>
+      <template v-slot:apartment="{ apartment }"
+        ><ApartmentsItem
+          :key="apartment.id"
+          :description="apartment.descr"
+          :rating="apartment.rating"
+          :price="apartment.price"
+          :imgSrc="apartment.imgUrl"
+          @click="handleItemClick"
+        />
+      </template>
+    </ApartmentsList>
   </div>
 </template>
 
@@ -8,29 +22,24 @@
 import apartments from "./components/apartment/apartments";
 
 import ApartmentsList from "./components/apartment/ApartmentsList.vue";
+import ApartmentsItem from "./components/apartment/ApartmentsItem.vue";
+import CustomInput from "./components/shared/CustomInput.vue";
 
 export default {
   name: "App",
-  components: { ApartmentsList },
+  components: { ApartmentsList, ApartmentsItem, CustomInput },
 
   data() {
     return {
+      text: "aa",
       apartments,
-      apartment: {
-        id: "4461sdsdsdsdd",
-        title: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. ",
-        descr:
-          "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Asperiores minima vitae amet in atque, at itaque, sed, officia praesentium quidem molestias. Consequatur molestiae, totam natus iusto ratione fuga est dicta.",
-        price: 2155,
-        rating: 3.5,
-        location: { city: "London" },
-        owner: {
-          name: "Nik",
-          phone: "050-45-82-753",
-          email: "Nik-Best@ukr.net",
-        },
-      },
     };
+  },
+
+  methods: {
+    handleItemClick() {
+      console.log("first", "first");
+    },
   },
 };
 </script>
